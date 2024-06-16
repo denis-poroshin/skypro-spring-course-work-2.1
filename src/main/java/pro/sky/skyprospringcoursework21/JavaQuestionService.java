@@ -10,7 +10,7 @@ public class JavaQuestionService implements QuestionService{
 //    List<Question> listOfQuestionsService;
 //    Question question;
 
-    Map<String, Question> mapOfQuestionsService;
+    private final Map<String, Question> mapOfQuestionsService;
     public JavaQuestionService() {
         mapOfQuestionsService = new HashMap<>(); // Решил собрать в мапу, но может это не правильно. Может лучше в List?
     }
@@ -25,6 +25,17 @@ public class JavaQuestionService implements QuestionService{
         mapOfQuestionsService.put(key, newQuestion);
         return mapOfQuestionsService.get(key);
     }
+
+    @Override
+    public Question add(Question question) {
+        String key = keyGeneration(question.getQuestion(), question.getAnswer());
+        if (mapOfQuestionsService.containsKey(key)){
+            throw new RecurringQuestionException("Этот вопрос уже есть в базе");
+        }
+        mapOfQuestionsService.put(key, question);
+        return mapOfQuestionsService.get(key);
+    }
+
     @Override
     public Question remove(String question, String answer){
         String key = keyGeneration(question, answer);
@@ -44,9 +55,12 @@ public class JavaQuestionService implements QuestionService{
         return Collections.unmodifiableCollection(mapOfQuestionsService.values()); // создаст неизменяемую копию мапы
     }
     @Override
-    public int getRandomQuestion(int amount){
+    public Question getRandomQuestion(){
         Random random = new Random();
-        return random.nextInt(0, amount);
+        int index =  random.nextInt(5);
+        List<Question> questionList = new ArrayList<>(getAll());
+        return questionList.get(index);
+
 
     }
 }

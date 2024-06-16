@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class ExaminerServiceImpl implements ExaminerService{
     private final QuestionService questionService;
 
-//    private  final List<Question> mapExaminerService = new ArrayList<>();
+    private  final HashSet<Question> mapExaminerService = new HashSet<>();
 
 
 
@@ -21,17 +21,23 @@ public class ExaminerServiceImpl implements ExaminerService{
 
     @Override
     public Collection<Question> getQuestions(int amount) {
-        List<Question> mapExaminerService = new ArrayList<>(questionService.getAll());
-        List<Question> mapExaminerServiceNew = new ArrayList<>();
-        int total = 0;
-        while (total != amount){
-            int random = questionService.getRandomQuestion(amount);
-            if (!mapExaminerServiceNew.contains(mapExaminerService.get(random))){
-                mapExaminerServiceNew.add(mapExaminerService.get(random));
-                ++total;
-            }
+//        int total = 0;
+//        while (mapExaminerService.size() != amount){
+//            Question questionRandom = questionService.getRandomQuestion();
+//            if (!mapExaminerService.contains(questionRandom)){
+//                mapExaminerService.add(questionRandom);
+//            }
+//
+//            mapExaminerService.add(questionRandom);
+//            ++total;
+//        }
+//        return mapExaminerService;
+
+        while (mapExaminerService.size() != amount){
+            mapExaminerService.add(questionService.getRandomQuestion());
+
         }
-        return mapExaminerServiceNew;
+        return mapExaminerService;
 
 
 
@@ -43,5 +49,22 @@ public class ExaminerServiceImpl implements ExaminerService{
 //                .collect(Collectors.groupingBy(mapExaminerServiceNew, () -> new List<Question>(), Collectors.toList())));
 
 
+
+
+
+
+
+
+//        List<Question> mapExaminerService = new ArrayList<>(questionService.getAll());
+//        List<Question> mapExaminerServiceNew = new ArrayList<>();
+//        int total = 0;
+//        while (total != amount){
+//            int random = questionService.getRandomQuestion(amount);
+//            if (!mapExaminerServiceNew.contains(mapExaminerService.get(random))){
+//                mapExaminerServiceNew.add(mapExaminerService.get(random));
+//                ++total;
+//            }
+//        }
+//        return mapExaminerServiceNew;
     }
 }
