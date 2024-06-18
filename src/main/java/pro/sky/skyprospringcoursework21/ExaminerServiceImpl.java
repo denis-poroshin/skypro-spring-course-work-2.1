@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class ExaminerServiceImpl implements ExaminerService{
     private final QuestionService questionService;
 
-    private  final HashSet<Question> mapExaminerService = new HashSet<>();
+//    private  final Set<Question> mapExaminerService = new HashSet<>();
 
 
 
@@ -21,17 +21,8 @@ public class ExaminerServiceImpl implements ExaminerService{
 
     @Override
     public Collection<Question> getQuestions(int amount) {
-//        int total = 0;
-//        while (mapExaminerService.size() != amount){
-//            Question questionRandom = questionService.getRandomQuestion();
-//            if (!mapExaminerService.contains(questionRandom)){
-//                mapExaminerService.add(questionRandom);
-//            }
-//
-//            mapExaminerService.add(questionRandom);
-//            ++total;
-//        }
-//        return mapExaminerService;
+        Set<Question> mapExaminerService = new HashSet<>();
+
 
         while (mapExaminerService.size() != amount){
             mapExaminerService.add(questionService.getRandomQuestion());

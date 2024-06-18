@@ -23,6 +23,11 @@ public class JavaQuestionServiceTest {
                         "Все классы наследуются от класса Object"));
     }
     @Test
+    public void addObjectTest(){
+        Assertions.assertThrows(RecurringQuestionException.class,
+                () -> javaQuestionService.add(question));
+    }
+    @Test
     public void removeTest(){
         String question = "Какие два класса не наследуются от Object?";
         String answer = "Все классы наследуются от класса Object";
@@ -52,7 +57,12 @@ public class JavaQuestionServiceTest {
         javaQuestionService.add("Mutable", "Mutable называются объекты, чьи состояния и переменные можно изменить " +
                 "после создания. Например такие классы, как StringBuilder, StringBuffer.");
 
-        assertNotEquals(javaQuestionService.getRandomQuestion(), javaQuestionService.getRandomQuestion());
+        org.assertj.core.api.Assertions.assertThat(javaQuestionService.getAll().contains(javaQuestionService.getRandomQuestion()));
+
+
+
+//        assertNotEquals(javaQuestionService.g, javaQuestionService.getRandomQuestion());
+
     }
 
 

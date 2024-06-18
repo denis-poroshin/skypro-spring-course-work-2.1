@@ -41,14 +41,12 @@ public class ExaminerServiceImplTest {
 
     @Test
     public void getQuestionsTest(){
-        Mockito.when(javaQuestionServiceMock.getRandomQuestion()).thenReturn(questionTwo, questionThree, questionFour, questionFive);
-        Assertions.assertNotNull(examinerServiceTest.getQuestions(5));
-    }
-    @Test
-    public void getQuestionsRandomNumberTest(){
         Mockito.when(javaQuestionServiceMock.getRandomQuestion()).thenReturn(questionOne, questionTwo, questionThree, questionFour, questionFive);
-        Assertions.assertNotEquals(examinerServiceTest.getQuestions(5), questionList);
+        int expectedSize = 3; // То что ожидается от метода
+        int actualSize = examinerServiceTest.getQuestions(3).size(); // То что получили на самом деле от метода
+        Assertions.assertEquals(expectedSize, actualSize);
     }
+
     @Test
     public void getQuestionsJealousyTest(){
         Mockito.when(javaQuestionServiceMock.getRandomQuestion()).thenReturn(questionOne, questionTwo, questionThree, questionFour, questionFive);
@@ -57,11 +55,12 @@ public class ExaminerServiceImplTest {
     }
     @Test
     public void getQuestionsDuplicate(){
+
         Question questionFiveDuplicate = new Question("Mutable", "Mutable называются объекты, чьи состояния и переменные можно изменить " +
                 "после создания. Например такие классы, как StringBuilder, StringBuffer.");
         Mockito.when(javaQuestionServiceMock.getRandomQuestion()).thenReturn(questionOne,questionFiveDuplicate, questionTwo, questionThree, questionFour, questionFive);
         org.assertj.core.api.Assertions.assertThat(examinerServiceTest.getQuestions(5).containsAll(questionList));
-        System.out.println(examinerServiceTest.getQuestions(5));
+
     }
 
 

@@ -9,6 +9,7 @@ public class JavaQuestionService implements QuestionService{
 
 //    List<Question> listOfQuestionsService;
 //    Question question;
+    private final Random random = new Random();
 
     private final Map<String, Question> mapOfQuestionsService;
     public JavaQuestionService() {
@@ -17,13 +18,7 @@ public class JavaQuestionService implements QuestionService{
 
     @Override
     public Question add(String question, String answer){
-        String key = keyGeneration(question, answer);
-        if (mapOfQuestionsService.containsKey(key)){
-            throw new RecurringQuestionException("Этот вопрос уже есть в базе");
-        }
-        Question newQuestion = new Question(question, answer);
-        mapOfQuestionsService.put(key, newQuestion);
-        return mapOfQuestionsService.get(key);
+        return add(new Question(question, answer));
     }
 
     @Override
@@ -56,9 +51,8 @@ public class JavaQuestionService implements QuestionService{
     }
     @Override
     public Question getRandomQuestion(){
-        Random random = new Random();
-        int index =  random.nextInt(5);
         List<Question> questionList = new ArrayList<>(getAll());
+        int index =  random.nextInt(questionList.size());
         return questionList.get(index);
 
 
