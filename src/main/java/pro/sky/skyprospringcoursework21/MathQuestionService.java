@@ -3,21 +3,18 @@ package pro.sky.skyprospringcoursework21;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 @Service
-@Qualifier("java")
-public class JavaQuestionService implements QuestionService{
-    private final JavaQuestionRepository javaQuestionRepository = new JavaQuestionRepository();
+@Qualifier("mathematics")
+public class MathQuestionService implements QuestionService{
 
+    private final MathematicsQuestionRepository mathematicsQuestionRepository = new MathematicsQuestionRepository();
 
 
     private final Random random = new Random();
-
-//    private final Map<String, Question> mapOfQuestionsService;
-//    public JavaQuestionService() {
-//        mapOfQuestionsService = new HashMap<>();
-//    }
 
     @Override
     public Question add(String question, String answer){
@@ -26,29 +23,26 @@ public class JavaQuestionService implements QuestionService{
 
     @Override
     public Question add(Question question) {
-        if (javaQuestionRepository.getAll().contains(question)){
+        if (mathematicsQuestionRepository.getAll().contains(question)){
             throw new RecurringQuestionException("Этот вопрос уже есть в базе");
         }
-        return javaQuestionRepository.add(question);
+        return mathematicsQuestionRepository.add(question);
     }
 
     @Override
     public Question remove(String question, String answer){
         Question questionToBeDeleted = new Question(question, answer);
-        if (javaQuestionRepository.getAll().contains(questionToBeDeleted)){
-           return javaQuestionRepository.remove(questionToBeDeleted);
+        if (mathematicsQuestionRepository.getAll().contains(questionToBeDeleted)){
+            return mathematicsQuestionRepository.remove(questionToBeDeleted);
         }
         throw new QuestionNotFoundException("Этот вопрос не найден в базе");
 
-    }
-//    private String keyGeneration(String question, String answer){
-//        return question + "/" + answer;
-//    }
 
+    }
     @Override
     public Collection<Question> getAll() {
 
-        return javaQuestionRepository.getAll();
+        return mathematicsQuestionRepository.getAll();
     }
     @Override
     public Question getRandomQuestion(){
