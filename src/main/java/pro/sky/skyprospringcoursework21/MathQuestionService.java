@@ -11,12 +11,12 @@ import java.util.Random;
 //@Qualifier("mathematics")
 public class MathQuestionService implements QuestionService{
 
-    private final MathematicsQuestionRepository mathematicsQuestionRepository;
+    private final QuestionRepository mathematicsQuestionRepository;
 
 
     private final Random random = new Random();
 
-    public MathQuestionService(MathematicsQuestionRepository mathematicsQuestionRepository) {
+    public MathQuestionService(@Qualifier("mathematicsQuestionRepository") QuestionRepository mathematicsQuestionRepository) {
         this.mathematicsQuestionRepository = mathematicsQuestionRepository;
     }
 

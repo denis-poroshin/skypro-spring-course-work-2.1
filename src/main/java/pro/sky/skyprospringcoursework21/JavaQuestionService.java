@@ -8,10 +8,10 @@ import java.util.*;
 @Service("javaQuestionService")
 //@Qualifier("java")
 public class JavaQuestionService implements QuestionService{
-    private final JavaQuestionRepository javaQuestionRepository;
+    private final QuestionRepository javaQuestionRepository;
     private final Random random = new Random();
 
-    public JavaQuestionService(JavaQuestionRepository javaQuestionRepository) {
+    public JavaQuestionService(@Qualifier("javaQuestionRepository") QuestionRepository javaQuestionRepository) {
         this.javaQuestionRepository = javaQuestionRepository;
     }
 

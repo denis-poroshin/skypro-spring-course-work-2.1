@@ -88,34 +88,56 @@ public class ExaminerServiceImplTest {
 
     @Test
     public void getQuestionsJavaTest(){
-        Question questionFiveDuplicate = new Question("Mutable", "Mutable называются объекты, чьи состояния и переменные можно изменить " +
-                "после создания. Например такие классы, как StringBuilder, StringBuffer.");
-        questionSetJava.add(questionFiveDuplicate);
+//        Question questionFiveDuplicate = new Question("Mutable", "Mutable называются объекты, чьи состояния и переменные можно изменить " +
+//                "после создания. Например такие классы, как StringBuilder, StringBuffer.");
+//        questionSetJava.add(questionFiveDuplicate);
+//
+//        Mockito.when(javaQuestionServiceMock.getRandomQuestion()).thenReturn(questionOne, questionFiveDuplicate, questionTwo, questionThree, questionFour, questionFive);
+//        Mockito.when(javaQuestionServiceMock.getAll()).thenReturn(questionSetJava);
+//
+//        int expectedSize = 3; // То что ожидается от метода
+//        int actualSize = examinerServiceTest.getQuestions(3).size(); // То что получили на самом деле от метода
 
-        Mockito.when(javaQuestionServiceMock.getRandomQuestion()).thenReturn(questionOne, questionFiveDuplicate, questionTwo, questionThree, questionFour, questionFive);
+//        Assertions.assertEquals(expectedSize, actualSize);
+//        org.assertj.core.api.Assertions.assertThat(examinerServiceTest.getQuestions(3).containsAll(questionSetJava));
+        Mockito.when(javaQuestionServiceMock.getRandomQuestion()).thenReturn(
+                questionOne,
+                questionTwo,
+                questionThree,
+                questionFour,
+                questionFive,
+                questionThree,
+                questionOne
+
+        );
         Mockito.when(javaQuestionServiceMock.getAll()).thenReturn(questionSetJava);
-
-        int expectedSize = 3; // То что ожидается от метода
-        int actualSize = examinerServiceTest.getQuestions(3).size(); // То что получили на самом деле от метода
-
-        Assertions.assertEquals(expectedSize, actualSize);
-        org.assertj.core.api.Assertions.assertThat(examinerServiceTest.getQuestions(3).containsAll(questionSetJava));
+        org.assertj.core.api.Assertions.assertThat(examinerServiceTest.getQuestions(3)).containsExactlyInAnyOrder(
+                questionOne,
+                questionTwo,
+                questionThree
+        );
 
     }
     @Test //падает в ошибку
     public void getQuestionsMathTest(){
-        Question questionFiveDuplicate = new Question("Вопрос", "Ответ");
-        questionSetMath.add(questionFiveDuplicate);
-
-        Mockito.when(mathQuestionServiceMock.getRandomQuestion()).thenReturn(questionSix,questionFiveDuplicate, questionSeven, questionEight, questionI);
+        Mockito.when(mathQuestionServiceMock.getRandomQuestion()).thenReturn(
+                questionSix,
+                questionSeven,
+                questionEight,
+                questionI,
+                questionSeven,
+                questionI,
+                questionEight);
         Mockito.when(mathQuestionServiceMock.getAll()).thenReturn(questionSetMath);
 
-        int expectedSize = 3; // То что ожидается от метода
-        int actualSize = examinerServiceTest.getQuestions(3).size(); // То что получили на самом деле от метода
+        org.assertj.core.api.Assertions.assertThat(examinerServiceTest.getQuestions(4)).containsExactlyInAnyOrder(
+                questionSix,
+                questionSeven,
+                questionEight,
+                questionI
+        );
 
-        Assertions.assertEquals(expectedSize, actualSize);
 
-        org.assertj.core.api.Assertions.assertThat(examinerServiceTest.getQuestions(3).containsAll(questionSetMath));
     }
 
     @Test
@@ -136,18 +158,38 @@ public class ExaminerServiceImplTest {
     }
     @Test // также падает в бесконечный цикл
     public void gettingAQuestionOnJavaAndMathematics(){
-        Mockito.when(javaQuestionServiceMock.getRandomQuestion()).thenReturn(questionOne, questionTwo, questionThree, questionFour);
+        Mockito.when(javaQuestionServiceMock.getRandomQuestion()).thenReturn(
+                questionOne,
+                questionTwo,
+                questionThree,
+                questionFour,
+                questionFive,
+                questionThree,
+                questionOne
+        );
         Mockito.when(javaQuestionServiceMock.getAll()).thenReturn(questionSetJava);
 
-        Mockito.when(mathQuestionServiceMock.getRandomQuestion()).thenReturn(questionSix, questionSeven, questionEight, questionI);
+        Mockito.when(mathQuestionServiceMock.getRandomQuestion()).thenReturn(
+                questionSix,
+                questionSeven,
+                questionEight,
+                questionI,
+                questionSeven,
+                questionI,
+                questionEight);
         Mockito.when(mathQuestionServiceMock.getAll()).thenReturn(questionSetMath);
 
-        Set<Question> questionSetJavaAndMath = new HashSet<>(List.of(questionSix, questionSeven, questionEight, questionI,
-                questionOne, questionTwo, questionThree, questionFour, questionFive));
-        System.out.println();
+        org.assertj.core.api.Assertions.assertThat(examinerServiceTest.getQuestions(8)).containsExactlyInAnyOrder(
+                questionSix,
+                questionSeven,
+                questionEight,
+                questionI,
+                questionOne,
+                questionTwo,
+                questionThree,
+                questionFour
 
-
-        org.assertj.core.api.Assertions.assertThat(examinerServiceTest.getQuestions(9).containsAll(questionSetJavaAndMath));
+        );
 
     }
 

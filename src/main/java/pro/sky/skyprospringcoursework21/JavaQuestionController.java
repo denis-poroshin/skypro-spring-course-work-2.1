@@ -13,7 +13,7 @@ public class JavaQuestionController {
     private final QuestionService javaQuestionService;
 
 
-    public JavaQuestionController(@Qualifier("java") QuestionService javaQuestionService) {
+    public JavaQuestionController(@Qualifier("javaQuestionService") QuestionService javaQuestionService) {
         this.javaQuestionService = javaQuestionService;
     }
     @GetMapping(path = "/add")
