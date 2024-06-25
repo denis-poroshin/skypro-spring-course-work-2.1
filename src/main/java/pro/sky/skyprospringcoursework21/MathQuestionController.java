@@ -12,7 +12,7 @@ import java.util.Collection;
 public class MathQuestionController {
     private final QuestionService mathematicsQuestionService;
 
-    public MathQuestionController(@Qualifier("mathematics") QuestionService mathematicsQuestionService) {
+    public MathQuestionController(@Qualifier("mathQuestionService") QuestionService mathematicsQuestionService) {
         this.mathematicsQuestionService = mathematicsQuestionService;
     }
 

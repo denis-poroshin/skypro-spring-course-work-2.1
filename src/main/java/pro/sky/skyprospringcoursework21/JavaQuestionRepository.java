@@ -1,13 +1,14 @@
 package pro.sky.skyprospringcoursework21;
 
 import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
+@Repository
 public class JavaQuestionRepository implements QuestionRepository{
 //    JavaQuestionService questionService;
     private final Set<Question> setJavaOfQuestions = new HashSet<>();

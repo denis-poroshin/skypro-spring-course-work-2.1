@@ -19,7 +19,7 @@ public class MathQuestionServiceTest {
     @Mock
     MathematicsQuestionRepository mathematicsQuestionRepositoryMock;
     @InjectMocks
-    MathQuestionService mathQuestionServiceMock;
+    MathQuestionService mathQuestionService;
 
     Question questionOne = new Question("Число, у которого нет собственного числа?",
                         "0");
@@ -31,30 +31,30 @@ public class MathQuestionServiceTest {
     Set<Question> questionSet = new HashSet<>(List.of(questionOne, questionTwo, questionThree));
     @Test
     public void addExceptionTest(){
-        mathQuestionServiceMock.add(questionOne);
-        mathQuestionServiceMock.add(questionTwo);
-        mathQuestionServiceMock.add(questionThree);
+        mathQuestionService.add(questionOne);
+        mathQuestionService.add(questionTwo);
+        mathQuestionService.add(questionThree);
 
         Assertions.assertThrows(RecurringQuestionException.class,
-                () -> mathQuestionServiceMock.add("Число, у которого нет собственного числа?",
+                () -> mathQuestionService.add("Число, у которого нет собственного числа?",
                         "0"));
         Assertions.assertThrows(RecurringQuestionException.class,
-                () -> mathQuestionServiceMock.add(questionOne));
+                () -> mathQuestionService.add(questionOne));
     }
     @Test
     public void addTest(){
-        mathQuestionServiceMock.add(questionOne);
-        mathQuestionServiceMock.add(questionTwo);
-        mathQuestionServiceMock.add(questionThree);
+        mathQuestionService.add(questionOne);
+        mathQuestionService.add(questionTwo);
+        mathQuestionService.add(questionThree);
 
-        int was = mathQuestionServiceMock.getAll().size();
-        org.assertj.core.api.Assertions.assertThat(mathQuestionServiceMock.add(questionFour)).isEqualTo(questionFour);
-        org.assertj.core.api.Assertions.assertThat(mathQuestionServiceMock.getAll()).hasSize(was + 1);
-        org.assertj.core.api.Assertions.assertThat(mathQuestionServiceMock.getAll()).contains(questionFour);
+        int was = mathQuestionService.getAll().size();
+        org.assertj.core.api.Assertions.assertThat(mathQuestionService.add(questionFour)).isEqualTo(questionFour);
+        org.assertj.core.api.Assertions.assertThat(mathQuestionService.getAll()).hasSize(was + 1);
+        org.assertj.core.api.Assertions.assertThat(mathQuestionService.getAll()).contains(questionFour);
         questionSet.add(questionFour);
 
         Mockito.when(mathematicsQuestionRepositoryMock.getAll()).thenReturn(questionSet);
-        assertArrayEquals(mathQuestionServiceMock.getAll().toArray(), mathematicsQuestionRepositoryMock.getAll().toArray());
+        assertArrayEquals(mathQuestionService.getAll().toArray(), mathematicsQuestionRepositoryMock.getAll().toArray());
     }
 //    @Test
 //    public void addObjectTest(){
@@ -69,21 +69,21 @@ public class MathQuestionServiceTest {
 
     @Test
     public void removeTest(){
-        mathQuestionServiceMock.add(questionOne);
-        mathQuestionServiceMock.add(questionTwo);
-        mathQuestionServiceMock.add(questionThree);
-        int was = mathQuestionServiceMock.getAll().size();
+        mathQuestionService.add(questionOne);
+        mathQuestionService.add(questionTwo);
+        mathQuestionService.add(questionThree);
+        int was = mathQuestionService.getAll().size();
         String question = "Число, у которого нет собственного числа?";
         String answer = "0";
-        Question questionRemove = mathQuestionServiceMock.remove(question, answer);
+        Question questionRemove = mathQuestionService.remove(question, answer);
 
         Assertions.assertEquals(questionOne, questionRemove);
-        Assertions.assertFalse(mathQuestionServiceMock.getAll().contains(questionOne));
+        Assertions.assertFalse(mathQuestionService.getAll().contains(questionOne));
         questionSet.remove(questionOne);
 //        javaQuestionServiceMock.remove(question, answer);
-        org.assertj.core.api.Assertions.assertThat(mathQuestionServiceMock.getAll()).hasSize(was -1);
+        org.assertj.core.api.Assertions.assertThat(mathQuestionService.getAll()).hasSize(was -1);
         Mockito.when(mathematicsQuestionRepositoryMock.getAll()).thenReturn(questionSet);
-        assertArrayEquals(mathQuestionServiceMock.getAll().toArray(), mathematicsQuestionRepositoryMock.getAll().toArray());
+        assertArrayEquals(mathQuestionService.getAll().toArray(), mathematicsQuestionRepositoryMock.getAll().toArray());
 
 
     }
@@ -92,37 +92,37 @@ public class MathQuestionServiceTest {
     public void checkingTheMethodRemoveForException(){
 
         Assertions.assertThrows(QuestionNotFoundException.class,
-                () -> mathQuestionServiceMock.remove("Число, у которого нет собственного числа?", "0"));
+                () -> mathQuestionService.remove("Число, у которого нет собственного числа?", "0"));
     }
     @Test
     public void getAllTest(){
-        mathQuestionServiceMock.add(questionOne);
-        mathQuestionServiceMock.add(questionTwo);
-        mathQuestionServiceMock.add(questionThree);
+        mathQuestionService.add(questionOne);
+        mathQuestionService.add(questionTwo);
+        mathQuestionService.add(questionThree);
 //        org.assertj.core.api.Assertions.assertThat(javaQuestionServiceMock.getAll()).containsExactlyInAnyOrder(questionSet);
 
         Mockito.when(mathematicsQuestionRepositoryMock.getAll()).thenReturn(questionSet);
-        assertArrayEquals(mathQuestionServiceMock.getAll().toArray(), mathematicsQuestionRepositoryMock.getAll().toArray());
+        assertArrayEquals(mathQuestionService.getAll().toArray(), mathematicsQuestionRepositoryMock.getAll().toArray());
     }
     @Test
     public void getRandomQuestionTest(){
 
-        mathQuestionServiceMock.add("Число, у которого нет собственного числа?","0");
-        mathQuestionServiceMock.add("Назовите единственное четное простое число",
+        mathQuestionService.add("Число, у которого нет собственного числа?","0");
+        mathQuestionService.add("Назовите единственное четное простое число",
                 "Две");
-        mathQuestionServiceMock.add("Каков фактический чистый номер после 7",
+        mathQuestionService.add("Каков фактический чистый номер после 7",
                 "11");
-        mathQuestionServiceMock.add("53 разделить на четыре сколько будет?","13");
+        mathQuestionService.add("53 разделить на четыре сколько будет?","13");
 
-        org.assertj.core.api.Assertions.assertThat(mathQuestionServiceMock.getAll().contains(mathQuestionServiceMock.getRandomQuestion()));
+        org.assertj.core.api.Assertions.assertThat(mathQuestionService.getAll().contains(mathQuestionService.getRandomQuestion()));
 
     }
     @Test
     public void getRandomQuestionExceptionTest(){
-        mathQuestionServiceMock.add(questionOne);
-        mathQuestionServiceMock.remove("Число, у которого нет собственного числа?","0");
+        mathQuestionService.add(questionOne);
+        mathQuestionService.remove("Число, у которого нет собственного числа?","0");
         Assertions.assertThrows(QuestionsNullException.class,
-                () -> mathQuestionServiceMock.getRandomQuestion());
+                () -> mathQuestionService.getRandomQuestion());
     }
 
 

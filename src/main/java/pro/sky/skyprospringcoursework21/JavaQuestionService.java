@@ -5,19 +5,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-@Service
-@Qualifier("java")
+@Service("javaQuestionService")
+//@Qualifier("java")
 public class JavaQuestionService implements QuestionService{
-    private final JavaQuestionRepository javaQuestionRepository = new JavaQuestionRepository();
-
-
-
+    private final JavaQuestionRepository javaQuestionRepository;
     private final Random random = new Random();
 
-//    private final Map<String, Question> mapOfQuestionsService;
-//    public JavaQuestionService() {
-//        mapOfQuestionsService = new HashMap<>();
-//    }
+    public JavaQuestionService(JavaQuestionRepository javaQuestionRepository) {
+        this.javaQuestionRepository = javaQuestionRepository;
+    }
+
 
     @Override
     public Question add(String question, String answer){

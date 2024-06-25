@@ -7,14 +7,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-@Service
-@Qualifier("mathematics")
+@Service("mathQuestionService")
+//@Qualifier("mathematics")
 public class MathQuestionService implements QuestionService{
 
-    private final MathematicsQuestionRepository mathematicsQuestionRepository = new MathematicsQuestionRepository();
+    private final MathematicsQuestionRepository mathematicsQuestionRepository;
 
 
     private final Random random = new Random();
+
+    public MathQuestionService(MathematicsQuestionRepository mathematicsQuestionRepository) {
+        this.mathematicsQuestionRepository = mathematicsQuestionRepository;
+    }
 
     @Override
     public Question add(String question, String answer){

@@ -13,9 +13,9 @@ public class ExaminerServiceImpl implements ExaminerService{
     private final QuestionService javaQuestionService;
     private final QuestionService mathematicsQuestionService;
 
-
-    public ExaminerServiceImpl(@Qualifier("mathematics") QuestionService mathematicsQuestionService,
-                               @Qualifier("java") QuestionService javaQuestionService) {
+    private final Random random = new Random();
+    public ExaminerServiceImpl(@Qualifier("mathQuestionService") QuestionService mathematicsQuestionService,
+                               @Qualifier("javaQuestionService") QuestionService javaQuestionService) {
         this.mathematicsQuestionService = mathematicsQuestionService;
         this.javaQuestionService = javaQuestionService;
     }
@@ -55,10 +55,9 @@ public class ExaminerServiceImpl implements ExaminerService{
     }
     private Collection<Question> gettingAQuestionOnJavaAndMathematics(int amount){
         Set<Question> mapExaminerService = new HashSet<>();
-        Random random = new Random();
         while (mapExaminerService.size() < amount){
-            int numRandom = random.nextInt(2);
-            if (numRandom == 0){
+            boolean numRandom = random.nextBoolean(); // true или false
+            if (numRandom){
                 mapExaminerService.add(javaQuestionService.getRandomQuestion());
             }else {
                 mapExaminerService.add(mathematicsQuestionService.getRandomQuestion());

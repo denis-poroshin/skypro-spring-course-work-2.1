@@ -23,7 +23,7 @@ public class JavaQuestionServiceTest {
     @Mock
     JavaQuestionRepository javaQuestionRepositoryMock;
     @InjectMocks
-    JavaQuestionService javaQuestionServiceMock;
+    JavaQuestionService javaQuestionService;
 //    @InjectMocks
 //    JavaQuestionRepository javaQuestionRepositoryMock;
 
@@ -41,30 +41,30 @@ public class JavaQuestionServiceTest {
 
     @Test
     public void addExceptionTest(){
-        javaQuestionServiceMock.add(questionOne);
-        javaQuestionServiceMock.add(questionTwo);
-        javaQuestionServiceMock.add(questionThree);
+        javaQuestionService.add(questionOne);
+        javaQuestionService.add(questionTwo);
+        javaQuestionService.add(questionThree);
 
         Assertions.assertThrows(RecurringQuestionException.class,
-                () -> javaQuestionServiceMock.add("Какие два класса не наследуются от Object?",
+                () -> javaQuestionService.add("Какие два класса не наследуются от Object?",
                         "Все классы наследуются от класса Object"));
         Assertions.assertThrows(RecurringQuestionException.class,
-                () -> javaQuestionServiceMock.add(questionOne));
+                () -> javaQuestionService.add(questionOne));
     }
     @Test
     public void addTest(){
-        javaQuestionServiceMock.add(questionOne);
-        javaQuestionServiceMock.add(questionTwo);
-        javaQuestionServiceMock.add(questionThree);
+        javaQuestionService.add(questionOne);
+        javaQuestionService.add(questionTwo);
+        javaQuestionService.add(questionThree);
 
-        int was = javaQuestionServiceMock.getAll().size();
-        org.assertj.core.api.Assertions.assertThat(javaQuestionServiceMock.add(questionFour)).isEqualTo(questionFour);
-        org.assertj.core.api.Assertions.assertThat(javaQuestionServiceMock.getAll()).hasSize(was + 1);
-        org.assertj.core.api.Assertions.assertThat(javaQuestionServiceMock.getAll()).contains(questionFour);
+        int was = javaQuestionService.getAll().size();
+        org.assertj.core.api.Assertions.assertThat(javaQuestionService.add(questionFour)).isEqualTo(questionFour);
+        org.assertj.core.api.Assertions.assertThat(javaQuestionService.getAll()).hasSize(was + 1);
+        org.assertj.core.api.Assertions.assertThat(javaQuestionService.getAll()).contains(questionFour);
         questionSet.add(questionFour);
 
         Mockito.when(javaQuestionRepositoryMock.getAll()).thenReturn(questionSet);
-        assertArrayEquals(javaQuestionServiceMock.getAll().toArray(), javaQuestionRepositoryMock.getAll().toArray());
+        assertArrayEquals(javaQuestionService.getAll().toArray(), javaQuestionRepositoryMock.getAll().toArray());
     }
 //    @Test
 //    public void addObjectTest(){
@@ -79,21 +79,21 @@ public class JavaQuestionServiceTest {
 
     @Test
     public void removeTest(){
-        javaQuestionServiceMock.add(questionOne);
-        javaQuestionServiceMock.add(questionTwo);
-        javaQuestionServiceMock.add(questionThree);
-        int was = javaQuestionServiceMock.getAll().size();
+        javaQuestionService.add(questionOne);
+        javaQuestionService.add(questionTwo);
+        javaQuestionService.add(questionThree);
+        int was = javaQuestionService.getAll().size();
         String question = "Какие два класса не наследуются от Object?";
         String answer = "Все классы наследуются от класса Object";
-        Question questionRemove = javaQuestionServiceMock.remove(question, answer);
+        Question questionRemove = javaQuestionService.remove(question, answer);
 
         Assertions.assertEquals(questionOne, questionRemove);
-        Assertions.assertFalse(javaQuestionServiceMock.getAll().contains(questionOne));
+        Assertions.assertFalse(javaQuestionService.getAll().contains(questionOne));
         questionSet.remove(questionOne);
 //        javaQuestionServiceMock.remove(question, answer);
-        org.assertj.core.api.Assertions.assertThat(javaQuestionServiceMock.getAll()).hasSize(was -1);
+        org.assertj.core.api.Assertions.assertThat(javaQuestionService.getAll()).hasSize(was -1);
         Mockito.when(javaQuestionRepositoryMock.getAll()).thenReturn(questionSet);
-        assertArrayEquals(javaQuestionServiceMock.getAll().toArray(), javaQuestionRepositoryMock.getAll().toArray());
+        assertArrayEquals(javaQuestionService.getAll().toArray(), javaQuestionRepositoryMock.getAll().toArray());
 
 
     }
@@ -102,40 +102,40 @@ public class JavaQuestionServiceTest {
     public void checkingTheMethodRemoveForException(){
 
         Assertions.assertThrows(QuestionNotFoundException.class,
-                () -> javaQuestionServiceMock.remove("Какие два класса не наследуются от Object?", "Main, Applicator"));
+                () -> javaQuestionService.remove("Какие два класса не наследуются от Object?", "Main, Applicator"));
     }
     @Test
     public void getAllTest(){
-        javaQuestionServiceMock.add(questionOne);
-        javaQuestionServiceMock.add(questionTwo);
-        javaQuestionServiceMock.add(questionThree);
+        javaQuestionService.add(questionOne);
+        javaQuestionService.add(questionTwo);
+        javaQuestionService.add(questionThree);
 //        org.assertj.core.api.Assertions.assertThat(javaQuestionServiceMock.getAll()).containsExactlyInAnyOrder(questionSet);
 
         Mockito.when(javaQuestionRepositoryMock.getAll()).thenReturn(questionSet);
-        assertArrayEquals(javaQuestionServiceMock.getAll().toArray(), javaQuestionRepositoryMock.getAll().toArray());
+        assertArrayEquals(javaQuestionService.getAll().toArray(), javaQuestionRepositoryMock.getAll().toArray());
     }
     @Test
     public void getRandomQuestionTest(){
-        javaQuestionServiceMock.add("Что такое Instance Variable?",
+        javaQuestionService.add("Что такое Instance Variable?",
                 "Instance Variable — переменная, которая определена внутри класса, и она " +
                         "существует вплоть до того момента, пока существует объект.");
-        javaQuestionServiceMock.add("Сколько классов можно наследовать",
+        javaQuestionService.add("Сколько классов можно наследовать",
                 "Только один, множественное наследование в Java запрещено!");
-        javaQuestionServiceMock.add("Автоупаковка (autoboxing) и Автораспаковка (unboxing)",
+        javaQuestionService.add("Автоупаковка (autoboxing) и Автораспаковка (unboxing)",
                 "Автоупаковка (autoboxing) - процесс автоматического преобразования из примитивного типа в соответствующий класс обертку.");
-        javaQuestionServiceMock.add("Mutable", "Mutable называются объекты, чьи состояния и переменные можно изменить " +
+        javaQuestionService.add("Mutable", "Mutable называются объекты, чьи состояния и переменные можно изменить " +
                 "после создания. Например такие классы, как StringBuilder, StringBuffer.");
 
-        org.assertj.core.api.Assertions.assertThat(javaQuestionServiceMock.getAll().contains(javaQuestionServiceMock.getRandomQuestion()));
+        org.assertj.core.api.Assertions.assertThat(javaQuestionService.getAll().contains(javaQuestionService.getRandomQuestion()));
 
     }
     @Test
     public void getRandomQuestionExceptionTest(){
-        javaQuestionServiceMock.add(questionOne);
-        javaQuestionServiceMock.remove("Какие два класса не наследуются от Object?",
+        javaQuestionService.add(questionOne);
+        javaQuestionService.remove("Какие два класса не наследуются от Object?",
                 "Все классы наследуются от класса Object");
         Assertions.assertThrows(QuestionsNullException.class,
-                () -> javaQuestionServiceMock.getRandomQuestion());
+                () -> javaQuestionService.getRandomQuestion());
     }
 
 
