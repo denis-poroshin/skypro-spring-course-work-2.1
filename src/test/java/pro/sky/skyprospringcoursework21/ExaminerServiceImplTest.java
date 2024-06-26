@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.*;
 
@@ -88,18 +89,6 @@ public class ExaminerServiceImplTest {
 
     @Test
     public void getQuestionsJavaTest(){
-//        Question questionFiveDuplicate = new Question("Mutable", "Mutable называются объекты, чьи состояния и переменные можно изменить " +
-//                "после создания. Например такие классы, как StringBuilder, StringBuffer.");
-//        questionSetJava.add(questionFiveDuplicate);
-//
-//        Mockito.when(javaQuestionServiceMock.getRandomQuestion()).thenReturn(questionOne, questionFiveDuplicate, questionTwo, questionThree, questionFour, questionFive);
-//        Mockito.when(javaQuestionServiceMock.getAll()).thenReturn(questionSetJava);
-//
-//        int expectedSize = 3; // То что ожидается от метода
-//        int actualSize = examinerServiceTest.getQuestions(3).size(); // То что получили на самом деле от метода
-
-//        Assertions.assertEquals(expectedSize, actualSize);
-//        org.assertj.core.api.Assertions.assertThat(examinerServiceTest.getQuestions(3).containsAll(questionSetJava));
         Mockito.when(javaQuestionServiceMock.getRandomQuestion()).thenReturn(
                 questionOne,
                 questionTwo,
@@ -158,6 +147,12 @@ public class ExaminerServiceImplTest {
     }
     @Test // также падает в бесконечный цикл
     public void gettingAQuestionOnJavaAndMathematics(){
+        Random random = Mockito.mock(Random.class);
+        Mockito.when(random.nextBoolean()).thenReturn(
+                true, false, true, false, true, false, true, false
+        );
+        ReflectionTestUtils.setField(examinerServiceTest, "random", random);
+//        ReflectionTestUtils.getField(examinerServiceTest, random);
         Mockito.when(javaQuestionServiceMock.getRandomQuestion()).thenReturn(
                 questionOne,
                 questionTwo,
@@ -188,7 +183,6 @@ public class ExaminerServiceImplTest {
                 questionTwo,
                 questionThree,
                 questionFour
-
         );
 
     }
